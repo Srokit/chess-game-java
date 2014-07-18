@@ -1,10 +1,12 @@
 package pieces;
 
+import chess.Board;
+
 public class Rook extends Piece{
 
-	public Rook(int[] location, String color) {
-		super(location, color);
-		this.color = color;
+	public Rook(String colorIn) {
+		super(colorIn);
+		color = colorIn;
 		
 		if(color == "white"){
 			symbol = "wRo";
@@ -14,8 +16,8 @@ public class Rook extends Piece{
 		}
 	}
 
-	public void move() {
-		
+	@Override
+	public String checkMove(int[] moveFromReq, int[] moveToReq) {
+		return null;
 	}
-
 }

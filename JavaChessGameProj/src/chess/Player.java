@@ -8,9 +8,9 @@ class Player {
 	private String color;
 	private final Scanner scanner = new Scanner(System.in);
 	
-	Player(String name, String color){
-		this.name = name;
-		this.color = color;
+	Player(String nameIn, String colorIn){
+		name = nameIn;
+		color = colorIn;
 	}
 	
 	private int convertCharToNum(char charIn){ //if this method returns a -1 the letter is not valid
@@ -32,7 +32,7 @@ class Player {
 		
 		for(int i: Board.SIDE_NUMS){
 			if(i == convertedNum){
-				numOut = convertedNum - 1; //-1 so that the locations are stored starting from 0
+				numOut = convertedNum; //-1 so that the locations are stored starting from 0
 			}
 		}
 		return numOut;
@@ -60,6 +60,7 @@ class Player {
 			
 						if((x = convertCharToNum(Character.toUpperCase(moveIn.charAt(0)))) != -1){
 							if((y = convertCharNumtoNum(moveIn.charAt(1))) != -1){
+								y = 8 - y; //flipping value for viewing purposes
 								int tempArray[] = {x, y};
 								move[i] = tempArray;
 								break;

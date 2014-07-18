@@ -1,11 +1,11 @@
 package pieces;
 
+import chess.Board;
+
 public class Bishop extends Piece{
 
-	
-	public Bishop(int[] location, String color) {
-		super(location, color);
-		this.color = color;
+	public Bishop(String colorIn) {
+		super(colorIn);
 		
 		if(color == "white"){
 			symbol = "wBi";
@@ -15,9 +15,9 @@ public class Bishop extends Piece{
 		}
 	}
 
-	public void move() {
-		
+	@Override
+	public String checkMove(int[] moveFromReq, int[] moveToReq) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-
 }

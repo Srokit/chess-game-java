@@ -1,11 +1,11 @@
 package pieces;
 
+import chess.Board;
+
 public class Knight extends Piece{
 
-	
-	public Knight(int[] location, String color) {
-		super(location, color);
-		this.color = color;
+	public Knight(String colorIn) {
+		super(colorIn);
 		
 		if(color == "white"){
 			symbol = "wKn";
@@ -15,8 +15,9 @@ public class Knight extends Piece{
 		}
 	}
 
-	public void move() {
-		
+	@Override
+	public String checkMove(int[] moveFromReq, int[] moveToReq) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
 }

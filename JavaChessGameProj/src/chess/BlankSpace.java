@@ -2,12 +2,11 @@ package chess;
 
 class BlankSpace extends Square{
 	
-	BlankSpace(int[] location) {
-		super(location);
-		symbol = "-*-";
+	public BlankSpace() {
+		symbol = "   ";
 	}
 
-	public void move() {
+	public void move(int[] moveToLoc) {
 		
 	}
 

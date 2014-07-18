@@ -8,73 +8,69 @@ public abstract class Board {
 	
 	static final char SIDE_LETTERS[] = {'A','B','C','D','E','F','G','H'};
 	static final int SIDE_NUMS[] = {1,2,3,4,5,6,7,8};//symbols on the side of board
-	private static Square board[][] = new Square[8][8];
+	public static Square board[][] = new Square[8][8];
 	
 	private static final Scanner scanner = new Scanner(System.in);
 	
 	private static void setup(){
-		int[] location = {0,0}; //board array and location x,y are inverted | using location variable for each location input
-		board[0][0] = new Rook(location, "black");
-		location[0] = 1;
-		board[0][1] = new Knight(location, "black");
-		location[0] = 2;
-		board[0][2] = new Bishop(location, "black");
-		location[0] = 3;
-		board[0][3] = new Queen(location, "black");
-		location[0] = 4;
-		board[0][4] = new King(location, "black");
-		location[0] = 5;
-		board[0][5] = new Bishop(location, "black");
-		location[0] = 6;
-		board[0][6] = new Knight(location, "black");
-		location[0] = 7;
-		board[0][7] = new Knight(location, "black");
+		//board array and location x,y are inverted
+		board[0][0] = new Rook("black");
+		board[0][1] = new Knight("black");
+		board[0][2] = new Bishop("black");
+		board[0][3] = new Queen("black");
+		board[0][4] = new King("black");
+		board[0][5] = new Bishop("black");
+		board[0][6] = new Knight("black");
+		board[0][7] = new Rook("black");
 		
-		location[1] = 1; //pawns
+		//pawns
 		for(int i = 0; i < 8; i++){
-			location[0] = i;
-			board[1][i] = new Pawn(location, "black");
+			board[1][i] = new Pawn("black");
 		}
 		
 		for(int i = 2; i < 6; i++){ //creating blank spaces in middle
 			for(int j = 0; j < 8; j++){
-				location[0] = j;
-				location[1] = i;
-				board[i][j] = new BlankSpace(location);
+				board[i][j] = new BlankSpace();
 			}
 		}
 		
-		location[1] = 6; //pawns
+		//pawns
 		for(int i = 0; i < 8; i++){
-			location[0] = i;
-			board[1][i] = new Pawn(location, "white");
+			board[6][i] = new Pawn("white");
 		}
-		
-		location[1] = 7; 
-		location[0] = 0;
-		board[7][0] = new Rook(location, "white");
-		location[0] = 1;
-		board[7][1] = new Knight(location, "white");
-		location[0] = 2;
-		board[7][2] = new Bishop(location, "white");
-		location[0] = 3;
-		board[7][3] = new Queen(location, "white");
-		location[0] = 4;
-		board[7][4] = new King(location, "white");
-		location[0] = 5;
-		board[7][5] = new Bishop(location, "white");
-		location[0] = 6;
-		board[7][6] = new Knight(location, "white");
-		location[0] = 7;
-		board[7][7] = new Knight(location, "white");
+
+		board[7][0] = new Rook("white");
+		board[7][1] = new Knight("white");
+		board[7][2] = new Bishop("white");
+		board[7][3] = new Queen("white");
+		board[7][4] = new King("white");
+		board[7][5] = new Bishop("white");
+		board[7][6] = new Knight("white");
+		board[7][7] = new Rook("white");
 		
 	}
 	
+	private static void update(int[] origLoc, int[] newLoc){
+		
+		for(int i = 0; i < 8; i++){ //assign square to new location on board
+			for(int j = 0; j < 8; j++){
+				int x = j;
+				int y = i;
+				board[j][i] = j;
+			}
+		}
+	}
+	
 	private static void draw(){
-		System.out.print("\n");
+		System.out.print("\n   ");
 		
 		for(char i: SIDE_LETTERS){ //printing letters across the top
-			System.out.print(" " + i + " ");
+			System.out.print("  " + i + "  ");
+		}
+		System.out.print("\n   ");
+		
+		for(int i = 0; i < 8; i++){
+			System.out.print(" --- ");
 		}
 		
 		System.out.print("\n");
@@ -82,16 +78,22 @@ public abstract class Board {
 			System.out.print(" " + (8 - i) + " "); //print number on left side
 			
 			for(Square j: board[i]){
-				System.out.print(j.getSymbol()); //tab for format
+				System.out.print("|" + j.getSymbol() + "|");
 			}
 			System.out.print(" " + (8 - i) + " "); //number on right side
 			
-			System.out.print("\n\n");//to get next line
+			System.out.print("\n   ");//to get next line
+			
+			for(int j = 0; j < 8; j++){
+				System.out.print(" --- ");
+			}
+			System.out.print("\n");
 		}
-		
+		System.out.print("   ");
 		for(char i: SIDE_LETTERS){ //printing letters across the bottom
-			System.out.print(" " + i + " ");
+			System.out.print("  " + i + "  ");
 		}
+		System.out.print("\n\n");
 	}
 	
 	private static String getName(int playerNum){
@@ -121,12 +123,22 @@ public abstract class Board {
 		//start main loop
 		while(true){
 			draw(); //show board
-			whitePly.getMove();
-			blackPly.getMove();
-			break;
+			
+			int move[][] = new int[2][2];
+			move = whitePly.getMove();
+			int[] moveFrom = move[0];
+			int[] moveTo = move[1];
+			
+			;  //assigning new board location
+			draw(); //show board
+			
+			move = blackPly.getMove();
+			moveFrom = move[0];
+			moveTo = move[1];
+			
+			board[moveTo[1]][moveTo[0]] = board[moveFrom[1]][moveFrom[0]]; //assigning new board location
+			
 		}
-		
-		scanner.close();
 	}
 	
 	
