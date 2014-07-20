@@ -32,18 +32,19 @@ class Player {
 		
 		for(int i: Board.SIDE_NUMS){
 			if(i == convertedNum){
-				numOut = convertedNum; //-1 so that the locations are stored starting from 0
+				//-1 so that the locations are stored starting from 0 
+				numOut = convertedNum;   
 			}
 		}
 		return numOut;
 	}
 	
-	public int[][] getMove(){
+	public int[][] getMove(){ //returns array of x and y for the spot to move from and to
 		
 		int[][] move = new int[2][2];
-		for(int i = 0; i < 2; i++){
+		for(int runNum = 1; runNum <= 2; runNum++){
 			while(true){
-				if(i == 0){ //on first run ask for location to move from
+				if(runNum == 1){ //on first run ask for location to move from
 					System.out.print(name + ", input your location to move from. (EX: E4)\n>> "); //prompt
 				}
 				else{ //on second run ask pos to move to
@@ -60,9 +61,21 @@ class Player {
 			
 						if((x = convertCharToNum(Character.toUpperCase(moveIn.charAt(0)))) != -1){
 							if((y = convertCharNumtoNum(moveIn.charAt(1))) != -1){
-								y = 8 - y; //flipping value for viewing purposes
+								y = 8 - y; //flipping value so that 0 index is on top
 								int tempArray[] = {x, y};
-								move[i] = tempArray;
+								if(runNum == 1){
+									if(Board.board[y][x].getType() == "blank" || Board.board[y][x].getColor() != color){ 
+										
+										//returning an array full of -1's if the first location does not point to a piece
+										//or if the piece is not of the same color as the player
+										tempArray[0] = -1;																
+										tempArray[1] = -1;
+										int[][] errorArray = {tempArray, tempArray};
+										return errorArray;
+									}
+								}
+								
+								move[runNum - 1] = tempArray;
 								break;
 							}
 						}
